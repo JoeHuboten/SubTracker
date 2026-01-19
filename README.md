@@ -1,18 +1,22 @@
-# Receipts & Subscriptions Detective 🔍
+# SubTracker 💳
 
-A privacy-first web app for detecting and managing recurring charges from your bank statements. No accounts, no servers, your data stays on your device.
+A beautiful, privacy-first subscription management SaaS with lifetime access. Track all your recurring payments, get insights on spending, and manage your subscriptions in one place.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-JoeHuboten%2FSubTracker-blue)](https://github.com/JoeHuboten/SubTracker)
 
 ## ✨ Features
 
-- **CSV Import**: Import transaction data from any bank that exports CSV files
-- **Smart Detection**: Automatically identifies recurring subscriptions from your transactions
-- **Cadence Detection**: Recognizes weekly, monthly, and yearly billing patterns
-- **Insights Engine**: Get actionable recommendations to optimize your subscriptions
-- **Price Change Alerts**: Detect when subscriptions increase their pricing
-- **Usage Tracking**: Rate how often you use each service to identify waste
-- **Privacy First**: All data stays in your browser's local storage - no servers involved
+- **📊 Subscription Dashboard**: Track all your subscriptions in one beautiful interface
+- **💰 Lifetime Access**: One-time €3.99 payment for permanent access
+- **🔐 Secure Authentication**: bcrypt-encrypted passwords with JWT tokens
+- **📱 Responsive Design**: Works seamlessly on desktop, tablet, and mobile
+- **🎨 Aurora Nights Theme**: Stunning cyan, pink, and purple gradient design
+- **💾 Local Storage**: Your data stays on your device with IndexedDB
+- **📈 Spending Insights**: Visualize your subscription costs and patterns
+- **🔔 Renewal Tracking**: Never miss a subscription renewal date
+- **⚙️ Full Settings**: Customize your experience with comprehensive settings
+- **🌙 Dark Mode**: Easy on the eyes with beautiful dark UI
 
 ## 🚀 Getting Started
 
@@ -20,13 +24,14 @@ A privacy-first web app for detecting and managing recurring charges from your b
 
 - Node.js 18+
 - npm or yarn
+- SQLite3 (for backend database)
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/subscription-detective.git
-cd subscription-detective
+git clone https://github.com/JoeHuboten/SubTracker.git
+cd SubTracker
 
 # Install dependencies
 npm install
@@ -35,7 +40,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3001](http://localhost:3001) in your browser.
 
 ### Build for Production
 
@@ -44,71 +49,130 @@ npm run build
 npm start
 ```
 
-## 📖 How It Works
-
-1. **Export your transactions** as CSV from your bank
-2. **Import the CSV** into the app
-3. **Review detected subscriptions** and confirm or dismiss them
-4. **Get insights** on potential savings and duplicate services
-5. **Track renewals** and manage your subscription status
-
 ## 🏗️ Tech Stack
 
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS with custom design system
-- **State Management**: Zustand with localStorage persistence
-- **Date Handling**: date-fns
-- **CSV Parsing**: PapaParse
+- **Styling**: Tailwind CSS with Aurora Nights theme
+- **Database**: SQLite via better-sqlite3
+- **Authentication**: bcrypt (12 rounds) + JWT tokens
+- **State Management**: Zustand with IndexedDB persistence
 - **Icons**: Lucide React
-
-## 🎨 Design System
-
-The app features a unique "Detective's Desk" aesthetic:
-
-- **Typography**: Fraunces (display), Inter (body), Caveat (handwritten notes)
-- **Colors**: Warm paper tones with teal accent
-- **Motion**: Subtle, purposeful animations
-- **Density**: "Calm clarity" spacing philosophy
+- **Storage**: IndexedDB + localStorage with SSR safety
 
 ## 📁 Project Structure
 
 ```
 src/
-├── app/                    # Next.js App Router pages
-│   ├── page.tsx           # Landing page
-│   └── app/               # Main application
-│       ├── page.tsx       # Dashboard
-│       ├── subscriptions/ # Subscriptions list
-│       ├── subscription/  # Subscription detail
-│       ├── insights/      # Insights page
-│       ├── settings/      # Settings page
-│       └── help/          # Help & FAQ
+├── app/                         # Next.js App Router
+│   ├── page.tsx                # Landing page
+│   ├── pricing/page.tsx        # Pricing page
+│   ├── login/page.tsx          # Login page
+│   ├── register/page.tsx       # Registration page
+│   ├── features/page.tsx       # Features page
+│   ├── changelog/page.tsx      # Changelog
+│   ├── roadmap/page.tsx        # Product roadmap
+│   ├── about/page.tsx          # About us
+│   ├── blog/page.tsx           # Blog
+│   ├── careers/page.tsx        # Careers
+│   ├── contact/page.tsx        # Contact form
+│   ├── privacy/page.tsx        # Privacy Policy
+│   ├── terms/page.tsx          # Terms of Service
+│   ├── cookies/page.tsx        # Cookie Policy
+│   ├── gdpr/page.tsx           # GDPR Compliance
+│   ├── api/                    # API routes
+│   │   ├── auth/               # Authentication endpoints
+│   │   └── subscribe/          # Subscription endpoint
+│   └── app/                    # Protected app pages
+│       ├── page.tsx            # Dashboard
+│       ├── subscriptions/      # Subscriptions list
+│       ├── subscription/[id]/  # Subscription detail
+│       ├── new/page.tsx        # Add new subscription
+│       ├── settings/page.tsx   # Settings
+│       └── layout.tsx          # App layout
 ├── components/
-│   ├── ui/               # Reusable UI components
-│   ├── import/           # CSV import wizard
-│   └── subscription/     # Subscription cards
+│   └── ui/index.tsx            # Reusable UI components
+├── contexts/
+│   └── auth-context.tsx        # Auth context provider
 ├── lib/
-│   ├── types.ts          # TypeScript definitions
-│   ├── detection.ts      # Subscription detection algorithm
-│   ├── normalization.ts  # Merchant name normalization
-│   ├── csv-parser.ts     # CSV parsing utilities
-│   ├── insights.ts       # Insights engine
-│   ├── demo-data.ts      # Demo data generator
-│   └── storage.ts        # localStorage utilities
-└── store/
-    └── app-store.ts      # Zustand state management
+│   ├── types.ts                # TypeScript definitions
+│   ├── db.ts                   # SQLite database setup
+│   ├── auth.ts                 # Authentication utilities
+│   ├── storage.ts              # IndexedDB utilities
+│   ├── helpers.ts              # Helper functions
+│   └── demo-data.ts            # Demo data generator
+├── store/
+│   └── app-store.ts            # Zustand state management
+└── data/
+    └── subtracker.db           # SQLite database
 ```
 
-## 🔒 Privacy
+## 💳 Pricing
 
-This app is designed with privacy as a core principle:
+- **One-time payment**: €3.99
+- **Lifetime access**: Forever
+- **30-day money-back guarantee**: Full refund if not satisfied
+- **No subscription**: No recurring charges
 
-- **No accounts required** - just import and go
-- **No data collection** - we have no servers
-- **Local storage only** - data stays in your browser
-- **Export/Import** - backup your data as JSON
-- **Delete anytime** - clear all data with one click
+## 🔒 Privacy & Security
+
+- **No data collection**: We don't track or sell your data
+- **Encrypted passwords**: bcrypt with 12 rounds
+- **Secure tokens**: JWT with 7-day expiry
+- **Local storage**: Your subscriptions stay on your device via IndexedDB
+- **GDPR compliant**: Full compliance with GDPR regulations
+- **EU servers**: Data stored in the European Union
+- **No third-party tracking**: No analytics or marketing cookies
+
+## 📖 Features Guide
+
+### Dashboard
+- View all your subscriptions at a glance
+- See total monthly and annual spending
+- Quick access to add new subscriptions
+- Filter and sort subscriptions
+
+### Add Subscription
+- Enter subscription name, price, and billing cycle
+- Set custom renewal dates
+- Add notes and categories
+- Upload subscription icon (optional)
+
+### Settings
+- Change password
+- Update profile information
+- Manage notification preferences
+- Export/import your data
+- Delete account
+
+### Insights
+- Monthly spending trends
+- Most expensive subscriptions
+- Renewal calendar
+- Potential savings opportunities
+
+## 🎨 Design System
+
+- **Theme**: Aurora Nights with cyan, pink, and purple gradients
+- **Typography**: Responsive typography for all screen sizes
+- **Components**: Reusable, accessible UI components
+- **Animations**: Smooth button animations and transitions
+- **Responsive**: Mobile-first responsive design
+
+## 🚀 Deployment
+
+Deploy to Vercel (recommended):
+
+```bash
+npm i -g vercel
+vercel
+```
+
+Or use any Node.js hosting:
+- Railway
+- Render
+- Netlify Functions
+- AWS Lambda
 
 ## 🤝 Contributing
 
@@ -117,6 +181,12 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📧 Support
+
+- **Email**: support@subtracker.app
+- **GitHub Issues**: [Report a bug](https://github.com/JoeHuboten/SubTracker/issues)
+- **Contact**: [Contact form](https://subtracker.app/contact)
 
 ---
 
